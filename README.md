@@ -18,6 +18,9 @@ The refactoring of GO requires a reorganization of some of the underlying infras
 
 This will checkout the selected revisions in `revisions_target.list` and remap them from the temporary checkout folder `checkouts/` to the new folder `releases/` using the `mapping.txt` mapping rules
 
+## Example of files currently generated:
+https://geneontology-tmp.s3.amazonaws.com/index.html#releases/
+
 ## Requirements
 * requests python library: `pip install requests`
 * svn python library: `pip install svn`
