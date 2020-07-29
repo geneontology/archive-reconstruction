@@ -1,0 +1,12 @@
+# Mapping of ontology files
+ontology/subsets/   ontology/subsets/
+ontology/extensions/    ontology/extensions/
+ontology/*.obo  ontology/
+ontology/*.owl  ontology/
+ontology/*.json ontology/
+external2go/    ontology/external2go/
+
+# Mapping of annotation files
+gene-associations/*.gz  annotations/
+gene-associations/submission/paint/pre-submission/*.gz annotations/
+gene-associations/submission/*.gz   products/annotations/
