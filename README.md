@@ -21,6 +21,8 @@ This will checkout the selected revisions in `revisions_target.list` and remap t
 ## Example of files currently generated:
 https://geneontology-tmp.s3.amazonaws.com/index.html#releases/
 
+Note: browsing of the S3 bucket is done using [aws-js-s3-explorer](https://github.com/awslabs/aws-js-s3-explorer)
+
 ## Requirements
 * requests python library: `pip install requests`
 * svn python library: `pip install svn`
