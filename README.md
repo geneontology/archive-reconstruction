@@ -18,7 +18,7 @@ The refactoring of GO requires a reorganization of some of the underlying infras
 
 This will checkout the selected revisions in `revisions_target.list` and remap them from the temporary checkout folder `checkouts/` to the new folder `releases/` using the `mapping.txt` mapping rules
 
-## Example of files currently generated:
+## Example of files currently generated
 https://geneontology-tmp.s3.amazonaws.com/index.html#releases/
 
 Note: browsing of the S3 bucket is done using [aws-js-s3-explorer](https://github.com/awslabs/aws-js-s3-explorer)
