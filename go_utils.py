@@ -1,12 +1,17 @@
-import json
-import requests
+import os, shutil, glob, json, requests, gzip
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
+from distutils.dir_util import copy_tree
 from enum import Enum
 
 # This is a hard coded list of evidence, better organized for readability
 ev_all = ['EXP', 'IDA', 'IMP', 'IGI',  'IPI', 'IEP', 'IGC', 'RCA', 'IBA', 'IKR', 'IC', 'NAS', 'ND', 'TAS', 'HDA', 'HEP', 'HGI', 'HMP', 'ISA', 'ISM', 'ISO', 'ISS', 'IEA']
 
+
+class COMPRESS_ACTIONS(Enum):
+   NONE = "none"
+   COMPRESS = "compress"
+   UNCOMPRESS = "uncompress"
 
 class CLOSURE_LABELS(Enum):
    ISA = "isa_closure"
@@ -281,17 +286,91 @@ def sum_map_values(map):
         total += val
     return total
 
-def write_json(key, content):
-    with open(key, 'w') as outfile:
+def read_file(filepath):
+    """
+    Read normal or gz file (based on their extension .gz)
+    """
+    data = None
+    if filepath.endswith(".gz"):
+        with gzip.open(filepath, "rb") as f:
+            data = f.read()
+    else:
+        with open(filepath, 'r') as myfile:
+            data = myfile.read()
+    return data    
+
+def write_json(filepath, content):
+    with open(filepath, 'w') as outfile:
         try:
             json.dump(content, outfile, indent=2)
         finally:
             outfile.close()
  
-def write_text(key, content):
-    with open(key, 'w') as outfile:
+def write_text(filepath, content):
+    with open(filepath, 'w') as outfile:
         try:
             outfile.write(content)
         finally:
             outfile.close()
+
+def check_folder(folder):
+    if not folder.endswith("/"):
+        folder += "/"
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+    return folder
+
+def copy_folder(input_rep, output_rep, verbose = True):
+    check_folder(output_rep)
+    if verbose:
+        print("copy folder: ", input_rep , " -> " , output_rep)
+    # shutil.copytree(input_rep, output_rep)  
+    try:
+        copy_tree(input_rep, output_rep)
+    except Exception as err:
+        print("could not copy folder: ", err)
+
+def copy_files(input_rep, extension_in, output_rep, extension_out = None, verbose = True):
+    check_folder(output_rep)
+    if verbose:
+        replace_str = " (replace " + extension_in + " extension with " + extension_out + ")" if extension_out != None else ""
+        print("copy files: ", input_rep + extension_in , " -> " , output_rep + replace_str)
+    in_files = glob.glob(input_rep + extension_in)
+    for in_file in in_files:
+        ifile = in_file.replace(input_rep, "")
+        try:
+            ofile = ifile
+            if extension_out:
+                ofile = ofile[0:ofile.rindex(".")] + extension_out[1:]
+            shutil.copy(input_rep + "/" + ifile, output_rep + "/" + ofile)
+        except Exception as err:
+            print("could not copy file: ", err)
+
+def copy_file(in_file, out_file, compress: COMPRESS_ACTIONS = COMPRESS_ACTIONS.NONE.value, verbose=True):
+    """
+    This will be used to remap a filename to another one during copy
+    If required, will also compress the file
+    """
+    try:
+        if compress == COMPRESS_ACTIONS.NONE.value:
+            shutil.copy(in_file, out_file)
+        elif compress == COMPRESS_ACTIONS.UNCOMPRESS.value:
+            if not in_file.endswith(".gz"):
+                shutil.copy(in_file, out_file)
+            else:
+                data = read_file(in_file)
+                write_text(out_file, data)                        
+        elif compress == COMPRESS_ACTIONS.COMPRESS.value:
+            if in_file.endswith(".gz"):
+                shutil.copy(in_file, out_file)
+            else:
+                data = read_file(in_file)
+                with gzip.open(out_file, "wb") as f:
+                    f.write(data)
+        else:
+            print("Invalid compress parameter: ", compress)
+            return -1    
+        return 0
+    except Exception as err:
+        print("Error while copying file ", in_file , " to ", out_file , ": " , err)
 

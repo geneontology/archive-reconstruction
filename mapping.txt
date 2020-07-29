@@ -1,3 +1,9 @@
+# Mapping format notes:
+# ontology/subsets/   ontology/subsets/                                 Do a sync between the two folders (include all subfolders)
+# gene-associations/*.gz  annotations/                                  Copy all *.gz files to annotations/
+# gene-associations/*.gz  annotations/*.gaf.gz                          Copy all *.gz files to annotations AND rename their extensions to *.gaf.gz
+# gene-associations/gene_association.aspgd.gz annotations/aspgd.gaf.gz  Copy and rename a specific file
+
 # Mapping of ontology files
 ontology/subsets/   ontology/subsets/
 ontology/extensions/    ontology/extensions/
@@ -7,6 +13,6 @@ ontology/*.json ontology/
 external2go/    ontology/external2go/
 
 # Mapping of annotation files
-gene-associations/*.gz  annotations/
-gene-associations/submission/paint/pre-submission/*.gz annotations/
-gene-associations/submission/*.gz   products/annotations/
+gene-associations/*.gz  annotations/*.gaf.gz
+gene-associations/submission/paint/pre-submission/*.gz annotations/*.gaf.gz
+gene-associations/submission/*.gz   products/annotations/*.gaf.gz

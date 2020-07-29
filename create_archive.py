@@ -1,9 +1,12 @@
-import json, sys, getopt, os, shutil, glob
+import os, json, sys, getopt
 from datetime import datetime
 
 import go_utils as utils
 
 # require https://pypi.org/project/svn/
+# note: could just run a process to have more control over the commands (eg can not --ignore-externals or --non-recursive)
+# this would be much faster as there are several subfolders that we are not interested in for this archive reconstruction
+# examples: https://stackoverflow.com/a/50980/7608507 and https://stackoverflow.com/a/16574107/7608507
 import svn.remote
 
 
@@ -24,7 +27,7 @@ def get_mappings(mapping_file):
     return mapping
 
 
-def checkout(revisions, output_rep):
+def checkout(svn_base_url, revisions, output_rep):
     count = 1
     for line in revisions:
         split = line.split("\t")
@@ -37,19 +40,19 @@ def checkout(revisions, output_rep):
 
         # note: we could do a single checkout for the whole trunk but this would take much more time
         try:
-            r = svn.remote.RemoteClient('https://192.168.0.100/svn/go/trunk/ontology/')
+            r = svn.remote.RemoteClient(svn_base_url + 'trunk/ontology/')
             r.checkout(output_rep + date + "/ontology/", revision)
         except Exception as err:
             print("Error while checking revision ", revision , ": " , err)
 
         try:
-            r = svn.remote.RemoteClient('https://192.168.0.100/svn/go/trunk/external2go/')
+            r = svn.remote.RemoteClient(svn_base_url + 'trunk/external2go/')
             r.checkout(output_rep + date + "/external2go/", revision)
         except Exception as err:
             print("Error while checking revision ", revision , ": " , err)
 
         try:
-            r = svn.remote.RemoteClient('https://192.168.0.100/svn/go/trunk/gene-associations/')
+            r = svn.remote.RemoteClient(svn_base_url + 'trunk/gene-associations/')
             r.checkout(output_rep + date + "/gene-associations/", revision)
         except Exception as err:
             print("Error while checking revision ", revision , ": " , err)
@@ -66,58 +69,39 @@ def map(mapping, checkout_rep, output_rep):
             filein = split[0]
             fileout = split[1]
 
+            # copy the whole folder and subfolders
             if filein.endswith("/"):
-                copy_folder(checkout_rep + release + "/" + filein, output_rep + release + "/" + fileout)
+                utils.copy_folder(checkout_rep + release + "/" + filein, output_rep + release + "/" + fileout)
+
+            # copy the file with specific extension
             elif "*." in filein:
-                extension = filein[filein.rindex("/") + 1:] if "/" in filein else filein
-                rep = filein.replace(extension, "")
-                copy_files(checkout_rep + release + "/" + rep, extension, output_rep + release + "/" + fileout)
+                extension_in = filein[filein.rindex("/") + 1:] if "/" in filein else filein
+                repin = filein.replace(extension_in, "")
 
-from distutils.dir_util import copy_tree
-def copy_folder(input_rep, output_rep):
-    check_folder(output_rep)
-    print("copy folder: ", input_rep , " -> " , output_rep)
-    # shutil.copytree(input_rep, output_rep)  
-    try:
-        copy_tree(input_rep, output_rep)
-    except Exception as err:
-        print("could not copy folder: ", err)
-
-def copy_files(input_rep, extension, output_rep):
-    check_folder(output_rep)
-    print("copy files: ", input_rep + extension , " -> " , output_rep)
-    in_files = glob.glob(input_rep + extension)
-    for in_file in in_files:
-        ifile = in_file.replace(input_rep, "")
-        try:
-            shutil.copy(input_rep + "/" + ifile, output_rep + "/" + ifile)
-        except Exception as err:
-            print("could not copy file: ", err)
+                # check if we want to replace the extension
+                extension_out = None
+                repout = fileout
+                if "*." in fileout:
+                    extension_out = fileout[fileout.rindex("/") + 1:] if "/" in fileout else fileout
+                    repout = fileout.replace(extension_out, "")
+                utils.copy_files(checkout_rep + release + "/" + repin, extension_in, output_rep + release + "/" + repout, extension_out)
+            
+            # copy the file to another specific file
+            else:
+                utils.copy_file(checkout_rep + release + "/" + filein, output_rep + release + "/" + fileout)
 
 
-def copy_file(in_file, out_file, compress_out):
-    """
-    This will be used to remap a filename to another one during copy
-    If required, will also compress the file
-    """
-    pass
-
-def check_folder(folder):
-    if not folder.endswith("/"):
-        folder += "/"
-    if not os.path.exists(folder):
-        os.makedirs(folder)
-    return folder
     
 
 def print_help():
-    print('\nUsage: python create_archive.py -s <svn_server> -r <target_revisions> -m <mapping_file> -c <checkout_rep> -o <output_rep>\n')
+    print('\nUsage: python create_archive.py -s <svn_base_url> -r <target_revisions> -m <mapping_file> -c <checkout_rep> -o <output_rep>\n')
+    print('Example of svn_base_url: https://192.168.0.100/svn/go/\n')
 
 def main(argv):
     target_revisions = ''
     checkout_rep = ''
     output_rep = ''
-    svn_server = ''
+    svn_base_url = ''
     mapping_file = ''
 
     if len(argv) < 4:
@@ -141,20 +125,22 @@ def main(argv):
         elif opt in ("-c", "--checkout"):
             checkout_rep = arg
         elif opt in ("-s", "--svn"):
-            svn_server = arg
+            svn_base_url = arg
+            if not svn_base_url.endswith("/"):
+                svn_base_url += "/"
         elif opt in ("-m", "--mapping"):
             mapping_file = arg
 
 
-    output_rep = check_folder(output_rep)
-    checkout_rep = check_folder(checkout_rep)
+    # create default folders (if needed)
+    output_rep = utils.check_folder(output_rep)
+    checkout_rep = utils.check_folder(checkout_rep)
 
-
-    # get target revisions
+    # get target revisions from svn.log and grep (see README.md)
     revisions = get_revisions(target_revisions)
 
-    # checkout those revisions
-    # checkout(revisions, checkout_rep)
+    # checkout those revisions (if checkout already done, comment that line to proceed with the reconstruction)
+    # checkout(svn_base_url, revisions, checkout_rep)
 
     # get mapping
     mapping = get_mappings(mapping_file)
