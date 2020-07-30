@@ -1,10 +1,18 @@
-# Mapping format notes:
+# ------------------------------------------------------------------
+#                       Mapping format notes
+# ------------------------------------------------------------------
+
 # ontology/subsets/   ontology/subsets/                                 Do a sync between the two folders (include all subfolders)
 # gene-associations/*.gz  annotations/                                  Copy all *.gz files to annotations/
 # gene-associations/*.gz  annotations/*.gaf.gz                          Copy all *.gz files to annotations AND rename their extensions to *.gaf.gz
 # gene-associations/gene_association.aspgd.gz annotations/aspgd.gaf.gz  Copy and rename a specific file
 
-# Mapping of ontology files
+
+
+# ------------------------------------------------------------------
+#                   1 - Mapping of ontology files
+# ------------------------------------------------------------------
+
 ontology/subsets/   ontology/subsets/
 ontology/extensions/    ontology/extensions/
 ontology/*.obo  ontology/
@@ -12,7 +20,163 @@ ontology/*.owl  ontology/
 ontology/*.json ontology/
 external2go/    ontology/external2go/
 
-# Mapping of annotation files
-gene-associations/*.gz  annotations/*.gaf.gz
-gene-associations/submission/paint/pre-submission/*.gz annotations/*.gaf.gz
-gene-associations/submission/*.gz   products/annotations/*.gaf.gz
+
+
+# ------------------------------------------------------------------
+#          2a - Mapping of annotation files (treated by GO)
+#          Note: annotations IN current.geneontology.org
+# ------------------------------------------------------------------
+
+gpad-gpi/submission/*.gpi.gz   annotations/
+
+# gene-associations/*.gz  annotations/*.gaf.gz
+gene-associations/gene_association.aspgd.gz annotations/aspgd.gaf.gz
+gene-associations/gene_association.cgd.gz annotations/cgd.gaf.gz
+gene-associations/gene_association.dictyBase.gz annotations/dictybase.gaf.gz
+gene-associations/gene_association.ecocyc.gz annotations/ecocyc.gaf.gz
+gene-associations/gene_association.fb.gz annotations/fb.gaf.gz
+gene-associations/gene_association.mgi.gz annotations/mgi.gaf.gz
+gene-associations/gene_association.pombase.gz annotations/pombase.gaf.gz
+gene-associations/gene_association.pseudocap.gz annotations/pseudocap.gaf.gz
+gene-associations/gene_association.reactome.gz annotations/reactome.gaf.gz
+gene-associations/gene_association.rgd.gz annotations/rgd.gaf.gz
+gene-associations/gene_association.sgd.gz annotations/sgd.gaf.gz
+gene-associations/gene_association.sgn.gz annotations/sgn.gaf.gz
+gene-associations/gene_association.tair.gz annotations/tair.gaf.gz
+gene-associations/gene_association.wb.gz annotations/wb.gaf.gz
+gene-associations/gene_association.zfin.gz annotations/zfin.gaf.gz
+
+gene-associations/gene_association.GeneDB_Lmajor.gz annotations/genedb_lmajor.gaf.gz
+gene-associations/gene_association.GeneDB_Pfalciparum.gz annotations/genedb_pfalciparum.gaf.gz
+gene-associations/gene_association.GeneDB_Tbrucei.gz annotations/genedb_tbrucei.gaf.gz
+
+# Note: for all GOA, it seems like complex, isoform and rna are not in SVN
+gene-associations/gene_association.goa_chicken.gz annotations/goa_chicken.gaf.gz
+gene-associations/gene_association.goa_cow.gz annotations/goa_cow.gaf.gz
+gene-associations/gene_association.goa_dog.gz annotations/goa_dog.gaf.gz
+gene-associations/gene_association.goa_human.gz annotations/goa_human.gaf.gz
+gene-associations/gene_association.goa_pig.gz annotations/goa_pig.gaf.gz
+
+# Note: for more recent revisions, filenames are ok
+gene-associations/goa_chicken.gaf.gz annotations/
+gene-associations/goa_chicken_complex.gaf.gz annotations/
+gene-associations/goa_chicken_isoform.gaf.gz annotations/
+gene-associations/goa_chicken_rna.gaf.gz annotations/
+gene-associations/goa_cow.gaf.gz annotations/
+gene-associations/goa_cow_complex.gaf.gz annotations/
+gene-associations/goa_cow_isoform.gaf.gz annotations/
+gene-associations/goa_cow_rna.gaf.gz annotations/
+gene-associations/goa_dog.gaf.gz annotations/
+gene-associations/goa_dog_complex.gaf.gz annotations/
+gene-associations/goa_dog_isoform.gaf.gz annotations/
+gene-associations/goa_dog_rna.gaf.gz annotations/
+gene-associations/goa_human.gaf.gz annotations/
+gene-associations/goa_human_complex.gaf.gz annotations/
+gene-associations/goa_human_isoform.gaf.gz annotations/
+gene-associations/goa_human_rna.gaf.gz annotations/
+gene-associations/goa_pig.gaf.gz annotations/
+gene-associations/goa_pig_complex.gaf.gz annotations/
+gene-associations/goa_pig_isoform.gaf.gz annotations/
+gene-associations/goa_pig_rna.gaf.gz annotations/
+gene-associations/goa_pdb.gaf.gz annotations/
+
+# N/A ? gene-associations/gene_association.aspgd.gz annotations/goa_uniprot_all.gaf.gz
+gene-associations/gene_association.goa_uniprot_noiea.gz annotations/goa_uniprot_all_noiea.gaf.gz
+gene-associations/gene_association.goa_uniprot_noiea.gaf.gz annotations/
+
+
+
+# ------------------------------------------------------------------
+#          2b - Mapping of annotation files (treated by GO)
+#          Note: annotations NOT in current.geneontology.org
+# ------------------------------------------------------------------
+
+gene-associations/gene_association.jcvi.gz annotations/jcvi.gaf.gz
+gene-associations/gene_association.gramene_oryza.gz annotations/gramene_oryza.gaf.gz
+gene-associations/gene_association.GeneDB_Spombe.gz annotations/genedb_spombe.gaf.gz
+gene-associations/gene_association.GeneDB_tsetse.gz annotations/genedb_tsetse.gaf.gz
+gene-associations/gene_association.goa_rat.gz annotations/goa_rat.gaf.gz
+gene-associations/gene_association.goa_mouse.gz annotations/goa_mouse.gaf.gz
+gene-associations/gene_association.goa_zebrafish.gz annotations/goa_zebrafish.gaf.gz
+gene-associations/gene_association.goa_zebrafish.gz annotations/goa_zebrafish.gaf.gz
+gene-associations/gene_association.goa_arabidopsis.gz annotations/goa_arabidopsis.gaf.gz
+gene-associations/gene_association.PAMGO_Atumefaciens.gz annotations/pamgo_atumefaciens.gaf.gz
+gene-associations/gene_association.PAMGO_Ddadantii.gz annotations/pamgo_ddadantii.gaf.gz
+gene-associations/gene_association.PAMGO_Mgrisea.gz annotations/pamgo_mgrisea.gaf.gz
+gene-associations/gene_association.PAMGO_Oomycetes.gz annotations/pamgo_oomycetes.gaf.gz
+
+
+
+# ------------------------------------------------------------------
+#          3a - Mapping of annotation files (submitted to GO)
+# ------------------------------------------------------------------
+
+# gene-associations/submission/paint/pre-submission/*.gz products/annotations/*.gaf.gz
+gene-associations/submission/paint/pre-submission/gene_association.paint_cgd.gz products/annotations/paint_cgd.gaf.gz
+gene-associations/submission/paint/pre-submission/gene_association.paint_dictyBase.gz products/annotations/paint_dictybase.gaf.gz
+gene-associations/submission/paint/pre-submission/gene_association.paint_ecocyc.gz products/annotations/paint_ecocyc.gaf.gz
+gene-associations/submission/paint/pre-submission/gene_association.paint_fb.gz products/annotations/paint_fb.gaf.gz
+gene-associations/submission/paint/pre-submission/gene_association.paint_goa_chicken.gz products/annotations/paint_goa_chicken.gaf.gz
+gene-associations/submission/paint/pre-submission/gene_association.paint_goa_human.gz products/annotations/paint_goa_human.gaf.gz
+gene-associations/submission/paint/pre-submission/gene_association.paint_mgi.gz products/annotations/paint_mgi.gaf.gz
+gene-associations/submission/paint/pre-submission/gene_association.paint_other.gz products/annotations/paint_other.gaf.gz
+gene-associations/submission/paint/pre-submission/gene_association.paint_pombase.gz products/annotations/paint_pombase.gaf.gz
+gene-associations/submission/paint/pre-submission/gene_association.paint_rgd.gz products/annotations/paint_rgd.gaf.gz
+gene-associations/submission/paint/pre-submission/gene_association.paint_sgd.gz products/annotations/paint_sgd.gaf.gz
+gene-associations/submission/paint/pre-submission/gene_association.paint_tair.gz products/annotations/paint_tair.gaf.gz
+gene-associations/submission/paint/pre-submission/gene_association.paint_wb.gz products/annotations/paint_wb.gaf.gz
+gene-associations/submission/paint/pre-submission/gene_association.paint_zfin.gz products/annotations/paint_zfin.gaf.gz
+
+#gene-associations/submission/*.gz   products/annotations/*.gaf.gz
+gene-associations/submission/gene_association.aspgd.gz products/annotations/aspgd.gaf.gz
+gene-associations/submission/gene_association.cgd.gz products/annotations/cgd.gaf.gz
+gene-associations/submission/gene_association.dictyBase.gz products/annotations/dictybase.gaf.gz
+gene-associations/submission/gene_association.ecocyc.gz products/annotations/ecocyc.gaf.gz
+gene-associations/submission/gene_association.fb.gz products/annotations/fb.gaf.gz
+gene-associations/submission/gene_association.mgi.gz products/annotations/mgi.gaf.gz
+gene-associations/submission/gene_association.pombase.gz products/annotations/pombase.gaf.gz
+gene-associations/submission/gene_association.pseudocap.gz products/annotations/pseudocap.gaf.gz
+gene-associations/submission/gene_association.reactome.gz products/annotations/reactome.gaf.gz
+gene-associations/submission/gene_association.rgd.gz products/annotations/rgd.gaf.gz
+gene-associations/submission/gene_association.sgd.gz products/annotations/sgd.gaf.gz
+gene-associations/submission/gene_association.sgn.gz products/annotations/sgn.gaf.gz
+gene-associations/submission/gene_association.tair.gz products/annotations/tair.gaf.gz
+gene-associations/submission/gene_association.wb.gz products/annotations/wb.gaf.gz
+gene-associations/submission/gene_association.zfin.gz products/annotations/zfin.gaf.gz
+
+gene-associations/submission/gene_association.GeneDB_Lmajor.gz products/annotations/genedb_lmajor.gaf.gz
+gene-associations/submission/gene_association.GeneDB_Pfalciparum.gz products/annotations/genedb_pfalciparum.gaf.gz
+gene-associations/submission/gene_association.GeneDB_Tbrucei.gz products/annotations/genedb_tbrucei.gaf.gz
+
+# Note: for all GOA, it seems like complex, isoform and rna are not in SVN
+gene-associations/submission/gene_association.goa_chicken.gz products/annotations/goa_chicken.gaf.gz
+gene-associations/submission/gene_association.goa_cow.gz products/annotations/goa_cow.gaf.gz
+gene-associations/submission/gene_association.goa_dog.gz products/annotations/goa_dog.gaf.gz
+gene-associations/submission/gene_association.goa_human.gz products/annotations/goa_human.gaf.gz
+gene-associations/submission/gene_association.goa_pig.gz products/annotations/goa_pig.gaf.gz
+
+# Note: for more recent revisions, filenames are ok
+gene-associations/submission/goa_chicken.gaf.gz products/annotations/
+gene-associations/submission/goa_chicken_complex.gaf.gz products/annotations/
+gene-associations/submission/goa_chicken_isoform.gaf.gz products/annotations/
+gene-associations/submission/goa_chicken_rna.gaf.gz products/annotations/
+gene-associations/submission/goa_cow.gaf.gz products/annotations/
+gene-associations/submission/goa_cow_complex.gaf.gz products/annotations/
+gene-associations/submission/goa_cow_isoform.gaf.gz products/annotations/
+gene-associations/submission/goa_cow_rna.gaf.gz products/annotations/
+gene-associations/submission/goa_dog.gaf.gz products/annotations/
+gene-associations/submission/goa_dog_complex.gaf.gz products/annotations/
+gene-associations/submission/goa_dog_isoform.gaf.gz products/annotations/
+gene-associations/submission/goa_dog_rna.gaf.gz products/annotations/
+gene-associations/submission/goa_human.gaf.gz products/annotations/
+gene-associations/submission/goa_human_complex.gaf.gz products/annotations/
+gene-associations/submission/goa_human_isoform.gaf.gz products/annotations/
+gene-associations/submission/goa_human_rna.gaf.gz products/annotations/
+gene-associations/submission/goa_pig.gaf.gz products/annotations/
+gene-associations/submission/goa_pig_complex.gaf.gz products/annotations/
+gene-associations/submission/goa_pig_isoform.gaf.gz products/annotations/
+gene-associations/submission/goa_pig_rna.gaf.gz products/annotations/
+gene-associations/submission/goa_pdb.gaf.gz products/annotations/
+
+# N/A ? gene-associations/submission/gene_association.aspgd.gaf.gz products/annotations/goa_uniprot_all.gaf.gz
+gene-associations/submission/gene_association.goa_uniprot_noiea.gz products/annotations/goa_uniprot_all_noiea.gaf.gz

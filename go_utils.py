@@ -351,6 +351,10 @@ def copy_file(in_file, out_file, compress: COMPRESS_ACTIONS = COMPRESS_ACTIONS.N
     This will be used to remap a filename to another one during copy
     If required, will also compress the file
     """
+    output_rep = out_file
+    if "/" in output_rep:
+        output_rep = output_rep[0:output_rep.rindex("/")]
+    check_folder(output_rep)    
     try:
         if compress == COMPRESS_ACTIONS.NONE.value:
             shutil.copy(in_file, out_file)
@@ -373,4 +377,5 @@ def copy_file(in_file, out_file, compress: COMPRESS_ACTIONS = COMPRESS_ACTIONS.N
         return 0
     except Exception as err:
         print("Error while copying file ", in_file , " to ", out_file , ": " , err)
+    return -1
 

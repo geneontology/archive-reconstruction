@@ -57,6 +57,12 @@ def checkout(svn_base_url, revisions, output_rep):
         except Exception as err:
             print("Error while checking revision ", revision , ": " , err)
 
+        try:
+            r = svn.remote.RemoteClient(svn_base_url + 'trunk/gpad-gpi/submission/')
+            r.checkout(output_rep + date + "/gpad-gpi/submission/", revision)
+        except Exception as err:
+            print("Error while checking revision ", revision , ": " , err)
+
 
 def map(mapping, checkout_rep, output_rep):
     releases = os.listdir(checkout_rep)
