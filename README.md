@@ -21,7 +21,7 @@ This will checkout the selected revisions in `revisions_target.list` and remap t
 Note: there will be some "Error while copying file" as we have to handle different file hierarchies over time (eg gene_association.goa_chicken.gz that became goa_chicken.gaf.gz and the script will be looking for both). Therefore, one should not be too concerned about those messages but they are still useful for debugging / logging of events.
 
 ## Example of files currently generated
-https://geneontology-tmp.s3.amazonaws.com/index.html#releases/
+https://geneontology-tmp.s3.amazonaws.com/index.html#releases-2/
 
 Note: browsing of the S3 bucket is done using [aws-js-s3-explorer](https://github.com/awslabs/aws-js-s3-explorer)
 
