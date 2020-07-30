@@ -146,7 +146,7 @@ def main(argv):
     revisions = get_revisions(target_revisions)
 
     # checkout those revisions (if checkout already done, comment that line to proceed with the reconstruction)
-    # checkout(svn_base_url, revisions, checkout_rep)
+    checkout(svn_base_url, revisions, checkout_rep)
 
     # get mapping
     mapping = get_mappings(mapping_file)
