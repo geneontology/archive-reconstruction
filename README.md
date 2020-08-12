@@ -4,6 +4,10 @@ The GO project has been relying on SVN, CVS and archive.geneontology.org for a l
 
 The refactoring of GO requires a reorganization of some of the underlying infrastructures and remapping of old files into more up-to-date folder hierarchy (see current.genontology.org).
 
+Full archive generated from SVN: https://geneontology-tmp.s3.amazonaws.com/index.html#releases-full/
+
+Note: ontology and annotations present only after 2012-09-01
+
 ## Steps / Usage
 
 1. Have a GO SVN up and running
