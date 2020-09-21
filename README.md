@@ -27,7 +27,7 @@ Note: there will be some "Error while copying file" as we have to handle differe
 ## Example of files currently generated
 https://geneontology-tmp.s3.amazonaws.com/index.html#releases-2/
 
-Note: browsing of the S3 bucket is inspired from [aws-js-s3-explorer](https://github.com/awslabs/aws-js-s3-explorer) but was remodeled to fit a canonical URL model and add the desired header / description.
+Note: browsing of the S3 bucket is inspired from [aws-js-s3-explorer](https://github.com/awslabs/aws-js-s3-explorer) but was remodeled to fit a canonical URL model and add the desired header / description. [Actual browser code](https://github.com/lpalbou/aws-js-s3-explorer)
 
 ## Requirements
 * requests python library: `pip install requests`
