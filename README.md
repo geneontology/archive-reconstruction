@@ -4,7 +4,7 @@ The GO project has been relying on SVN, CVS and archive.geneontology.org for a l
 
 The refactoring of GO requires a reorganization of some of the underlying infrastructures and remapping of old files into more up-to-date folder hierarchy (see current.genontology.org).
 
-Full archive generated from SVN: https://geneontology-tmp.s3.amazonaws.com/index.html#releases-full/
+Full archive generated from SVN: https://geneontology-tmp.s3.amazonaws.com/releases-full/index.html
 
 Note: ontology and annotations present only after 2012-09-01
 
@@ -27,7 +27,7 @@ Note: there will be some "Error while copying file" as we have to handle differe
 ## Example of files currently generated
 https://geneontology-tmp.s3.amazonaws.com/index.html#releases-2/
 
-Note: browsing of the S3 bucket is done using [aws-js-s3-explorer](https://github.com/awslabs/aws-js-s3-explorer)
+Note: browsing of the S3 bucket is inspired from [aws-js-s3-explorer](https://github.com/awslabs/aws-js-s3-explorer) but was remodeled to fit a canonical URL model and add the desired header / description.
 
 ## Requirements
 * requests python library: `pip install requests`
